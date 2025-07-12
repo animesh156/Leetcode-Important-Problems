@@ -1,3 +1,4 @@
+// memo using unordered map TC:- O(logn), SWC :- O(n)
 class Solution {
 public:
     unordered_map<long long,int> dp;
@@ -11,5 +12,24 @@ public:
     }
     int integerReplacement(int n) {
         return f((long long)n);
+    }
+};
+
+
+// grredy apporach O(logn) 
+class Solution {
+public:
+    int integerReplacement(int n) {
+        long long num = n;
+        int steps = 0;
+        while(num > 1){
+            if(num % 2 == 0) num /= 2;
+            else {
+              if(num == 3 || (num & 2) == 0) num -= 1;
+              else num += 1;
+            }
+            steps++;
+        }
+        return steps;
     }
 };
