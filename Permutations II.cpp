@@ -1,3 +1,4 @@
+// swap method
 class Solution {
 public: 
     void f(int ind, vector<int>& nums, vector<vector<int>> &res){
@@ -28,7 +29,7 @@ public:
 
 
 
-
+//using vis array
 class Solution {
 public: 
     void f(vector<int>& nums, vector<vector<int>> &res, vector<int> &cur,vector<bool> &vis){
