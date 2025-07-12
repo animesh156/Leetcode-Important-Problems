@@ -16,7 +16,8 @@ public:
 };
 
 
-// grredy apporach O(logn) 
+// grredy apporach O(logn)   
+// cocnept is we look for tailing zeros in case of odd number which option produc more tailing zeroes, more tailing zeros means more no of / 2 steps to reach next odd no, but here is catrhc if (n+1) alwsy gives more trailing zeros but in two casaes like n == 3 or num & 2 == 0(where 2nd LSWB is ) gives more trailing option so in thi casse we prefer n - 1
 class Solution {
 public:
     int integerReplacement(int n) {
