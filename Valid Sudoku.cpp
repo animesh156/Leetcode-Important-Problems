@@ -34,3 +34,59 @@ public:
         return true;
     }
 };
+
+// brute force
+class Solution {
+public:
+    bool checkRows(vector<vector<char>>& board) {
+        for (int i = 0; i < 9; i++) {
+            vector<bool> seen(9, false);
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '1';
+                    if (seen[num]) return false;
+                    seen[num] = true;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool checkColumns(vector<vector<char>>& board) {
+        for (int j = 0; j < 9; j++) {
+            vector<bool> seen(9, false);
+            for (int i = 0; i < 9; i++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '1';
+                    if (seen[num]) return false;
+                    seen[num] = true;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool validSubBoxes(vector<vector<char>>& board) {
+        for (int boxRow = 0; boxRow < 3; boxRow++) {
+            for (int boxCol = 0; boxCol < 3; boxCol++) {
+                vector<bool> seen(9, false);
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        int row = boxRow * 3 + i;
+                        int col = boxCol * 3 + j;
+                        if (board[row][col] != '.') {
+                            int num = board[row][col] - '1';
+                            if (seen[num]) return false;
+                            seen[num] = true;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    bool isValidSudoku(vector<vector<char>>& board) {
+        return checkRows(board) && checkColumns(board) && validSubBoxes(board);
+    }
+};
