@@ -1,0 +1,25 @@
+// sliding window soln TC:- O(n), SC:- O(1)   logic is find count subbaray of atMost k odd & k -1 odd then substract first from second will get extact k odd number subarrays count
+
+class Solution {
+public:
+    int f(vector<int>& nums, int k){
+        int cnt = 0, i = 0, odd = 0, j = 0;
+
+        while(j < nums.size()) {
+            if(nums[j] % 2 != 0) odd++;
+
+            while(odd > k){
+                if(nums[i] % 2 != 0) odd--;
+                i++;
+            }
+
+            cnt += (j - i + 1);
+            j++;
+        }
+
+        return cnt;
+    }
+    int numberOfSubarrays(vector<int>& nums, int k) {
+       return f(nums,k) - f(nums,k-1);
+    }
+};
