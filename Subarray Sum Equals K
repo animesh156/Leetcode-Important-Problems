@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int,int> prefix;
+        prefix[0] = 1;
+        int curSum = 0;
+        int res = 0;
+        for(auto it : nums){
+           curSum += it;
+           if(prefix.find(curSum - k) != prefix.end()) res += prefix[curSum - k];      // logic is t ofind subarray whose sum is k & its start from i & end at j, that is prefix[j] - prefix[i-1] = k, which willl be prefix[i-1] = prefix[j] - k 
+           prefix[curSum]++;
+        }
+
+        return res;
+    }
+};
