@@ -1,0 +1,23 @@
+we treat O as -1  trhen this qn becomes find length of lonesgt subarray with sum = 0
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int n = nums.size();
+        int maxLength = 0, curSum = 0;
+
+        unordered_map<int,int> mp;
+        mp[0] = -1;
+
+        for(int i=0;i<n;i++){
+            if(nums[i] == 0) curSum -= 1;
+            else curSum += 1;
+
+            if(mp.find(curSum) != mp.end()) maxLength = max(maxLength, i - mp[curSum]); 
+
+            else mp[curSum] = i;
+        }
+
+        return maxLength;
+    }
+};
