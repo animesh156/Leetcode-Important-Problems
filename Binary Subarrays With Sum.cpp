@@ -1,3 +1,36 @@
+// sliding window soln
+
+class Solution {
+public:
+     int f(vector<int>& nums, int k) {
+        if(k < 0) return 0;
+       int res = 0, i  = 0, j = 0;
+        int sum = 0;
+
+       while(j < nums.size()){
+         sum += nums[j];
+
+        while(sum > k){
+            sum -= nums[i];
+            i++;
+        }
+
+        res += (j - i + 1);
+        j++;
+       }
+
+       return res;
+   }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        return f(nums,goal) - f(nums,goal - 1);
+    }
+};
+
+
+
+
+// map + prefix sum soln
 class Solution {
 public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
