@@ -1,0 +1,92 @@
+O(N*L) using trie
+
+class Solution {
+    private:
+    struct TrieNode {
+        bool isEndOfFolder;
+        unordered_map<string, TrieNode*> children;
+        TrieNode() : isEndOfFolder(false) {}
+    };
+
+    TrieNode* root;
+    
+
+    void deleteTrie(TrieNode* node){
+        if(node == nullptr) return;
+        for(auto& pair : node->children){
+            deleteTrie(pair.second);
+        }
+        delete node;
+    }
+
+
+public:
+  Solution() : root(new TrieNode()) {}
+
+  ~Solution() { deleteTrie(root); }
+
+
+    vector<string> removeSubfolders(vector<string>& folder) {
+        for(auto& f : folder){
+            TrieNode* curNode = root;
+            istringstream iss(f);
+            string foldername;
+
+
+            while(getline(iss, foldername, '/')) {
+                if(foldername.empty()) continue;
+
+                if(curNode->children.find(foldername) == curNode->children.end()) {
+                    curNode->children[foldername] = new TrieNode();
+
+                }
+                curNode = curNode->children[foldername];
+            }
+            curNode->isEndOfFolder = true;
+        }
+
+
+        // check 
+        vector<string> res;
+        for(auto & f : folder){
+            TrieNode* curNode = root;
+            istringstream iss(f);
+            bool isSubFolder = false;
+            string foldername;
+
+            while(getline(iss, foldername, '/')) {
+                if(foldername.empty()) continue;
+                TrieNode* nextNode = curNode->children[foldername];
+
+                if(nextNode->isEndOfFolder && iss.rdbuf()->in_avail() != 0){
+                    isSubFolder = true;
+                    break;
+                }
+                curNode = nextNode;
+            }
+
+            if(!isSubFolder) res.push_back(f);
+        }
+
+        return res;
+    }
+};
+
+
+
+
+
+
+(nlogn) soln
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        vector<string> res;
+        sort(folder.begin(),folder.end());
+        for(auto& s : folder){
+            if(res.empty() || s.find(res.back() + "/") != 0) res.push_back(s);
+        }
+
+        return res;
+    }
+};
