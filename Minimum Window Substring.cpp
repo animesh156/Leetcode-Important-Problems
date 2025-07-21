@@ -1,3 +1,4 @@
+// sliding window TC :- O(m +n)
 class Solution {
 public:
     string minWindow(string s, string t) {
@@ -36,5 +37,44 @@ public:
         }
 
         return minLen == INT_MAX ? "" : s.substr(minStart,minLen);
+    }
+};
+
+// brute force O(n^3)
+
+class Solution {
+public:
+    bool isValid(string &sub, unordered_map<char,int> &tCnt) {
+        unordered_map<char,int> sCnt;
+        for(auto ch : sub) sCnt[ch]++;
+
+        for(auto it : tCnt) {
+            if(sCnt[it.first] < it.second) return false;
+        }
+        return true;
+    }
+
+    string minWindow(string s, string t) {
+        if(t.size() > s.size()) return "";
+        int minLen = INT_MAX;
+        string ans = "";
+
+        unordered_map<char,int> tCnt;
+
+        for(auto ch : t) tCnt[ch]++;
+
+        for(int i=0;i<s.length();i++) {
+            for(int j= i;j<s.length();j++) {
+                string sub = s.substr(i,j-i+1);
+                if(isValid(sub,tCnt)) {
+                    if(sub.length() < minLen) {
+                        minLen = sub.length();
+                        ans = sub;
+                    }
+                }
+            }
+        }
+
+        return ans;
     }
 };
