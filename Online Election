@@ -1,0 +1,43 @@
+class TopVotedCandidate {
+public:
+vector<int> leaders;
+vector<int> times;
+    TopVotedCandidate(vector<int>& persons, vector<int>& times) {
+       this->times = times;
+       int maxFreq = 0, leader = 0;
+       unordered_map<int,int> voteCount;
+
+       for(int i=0;i<persons.size();i++){
+          voteCount[persons[i]]++;
+          if(voteCount[persons[i]] >= maxFreq){
+            maxFreq = voteCount[persons[i]];
+            leader = persons[i];
+          }
+          leaders.push_back(leader);
+       }
+
+    }
+    
+    int q(int t) {
+        int ind = -1;
+        int l = 0, h = times.size()-1;
+
+        while(l <= h){
+            int mid = l + (h-l) / 2;
+            if(times[mid] <= t){
+                ind = mid;
+                l = mid + 1;
+            }
+            else h = mid - 1;
+        }
+        
+        return leaders[ind];
+        
+    }
+};
+
+/**
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * TopVotedCandidate* obj = new TopVotedCandidate(persons, times);
+ * int param_1 = obj->q(t);
+ */
