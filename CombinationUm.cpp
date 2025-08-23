@@ -24,3 +24,34 @@ public:
        return res;
     }
 };
+
+
+// with early pruning
+
+class Solution {
+public:
+    void f(int ind, vector<int>& c, int tar, vector<int>& cur, vector<vector<int>> &res) {
+           
+            if (tar == 0) {
+            res.push_back(cur);
+            return;
+        }
+
+
+        for(int i=ind;i<c.size();i++) {
+            if(c[i] > tar) break;
+            cur.push_back(c[i]);
+            f(i, c, tar - c[i], cur, res);
+            cur.pop_back();
+        }
+       
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& c, int target) {
+       vector<int> cur;
+       vector<vector<int>> res;
+       sort(c.begin(), c.end());
+       f(0, c, target, cur, res);
+       return res;
+    }
+};
