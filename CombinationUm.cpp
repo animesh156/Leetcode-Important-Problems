@@ -1,28 +1,26 @@
+// TC will be K * (2 ^ t),  where t will be target / min(c), SC will be (2 ^ t)
+
 class Solution {
 public:
-    void f(int i, vector<int>& arr, int tar, vector<vector<int>>& ans, vector<int>& tmp) {
-        if (tar == 0) {
-            ans.push_back(tmp);
+    void f(int ind, vector<int>& c, int tar, vector<int>& cur, vector<vector<int>> &res) {
+        if(ind == c.size()) {
+            if(tar == 0) res.push_back(cur);
             return;
         }
 
-        for (int ind = i; ind < arr.size(); ind++) {
-            if (arr[ind] > tar) break; 
-
-            tmp.push_back(arr[ind]);
-            f(ind, arr, tar - arr[ind], ans, tmp); 
-            tmp.pop_back();
+        if(c[ind] <= tar) {
+            cur.push_back(c[ind]);
+            f(ind, c, tar - c[ind], cur, res);
+            cur.pop_back();
         }
+
+        f(ind + 1, c, tar, cur, res);
     }
 
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>> ans;
-        vector<int> tmp;
-
-        sort(candidates.begin(), candidates.end()); 
-
-        f(0, candidates, target, ans, tmp);
-
-        return ans;
+    vector<vector<int>> combinationSum(vector<int>& c, int target) {
+       vector<int> cur;
+       vector<vector<int>> res;
+       f(0, c, target, cur, res);
+       return res;
     }
 };
